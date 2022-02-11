@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		{% if title %}
+			<title>{{ title }} - Available</title>
+		{% else %}
+			<title>Available</title>
+		{% endif %}
+		<meta charset="utf-8">
+		{% if description %}
+			<meta name="description" content="{{ description }}">
+		{% else %}
+			<meta name="description" content="Figure out when everyone is available for that thing.">
+		{% endif %}
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="{{ url_for('static', filename = 'styles/style.css') }}">
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">Available [ALPHA]</a></h1>
+		</header>
+		<nav>
+			<a href="/">New</a> |
+			<a href="/feedback">Feedback</a>
+		</nav>
+		<hr>

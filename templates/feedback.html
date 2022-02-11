@@ -1,0 +1,39 @@
+{% include 'header.html' %}
+
+<main>
+	<h2>Feedback</h2>
+	
+	<form action="/post-feedback" method="post">
+		<h3>How useful do you find this website?</h3>
+		<label>Completely useless</label>
+		<input type="radio" name="useful" value="1" required>
+		<input type="radio" name="useful" value="2">
+		<input type="radio" name="useful" value="3">
+		<input type="radio" name="useful" value="4">
+		<input type="radio" name="useful" value="5">
+		<label>Very useful</label>
+		<br><br>
+		<label>Comment <i>(optional)</i></label>
+		<br>
+		<textarea name="useful-comment" rows="8"></textarea>
+		<br><br>
+
+		<h3>How easy do you think this website is to use?</h3>
+		<label>Very difficult</label>
+		<input type="radio" name="easy" value="1" required>
+		<input type="radio" name="easy" value="2">
+		<input type="radio" name="easy" value="3">
+		<input type="radio" name="easy" value="4">
+		<input type="radio" name="easy" value="5">
+		<label>Very easy</label>
+		<br><br>
+		<label>Comment <i>(optional)</i></label>
+		<br>
+		<textarea name="easy-comment" rows="8"></textarea>
+		<br><br><br>
+
+		<button type="submit">Submit</button>
+	</form>
+</main>
+
+{% include 'footer.html' %}

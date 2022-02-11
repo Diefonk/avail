@@ -1,0 +1,52 @@
+body {
+	max-width: 800px;
+	margin: auto;
+	padding: 16px;
+	background-color: white;
+	font-family: Helvetica, sans-serif;
+	color: black;
+	font-size: 16px;
+}
+header, nav {
+	display: inline-block;
+}
+nav {
+	float: right;
+}
+h1 a {
+	color: black;
+	text-decoration: none;
+}
+a {
+	color: blue;
+	text-decoration: underline;
+}
+textarea {
+	width: 100%;
+	resize: vertical;
+	font-family: Helvetica, sans-serif;
+	background-color: white;
+	border-color: black;
+	color: black;
+}
+footer {
+	text-align: center;
+}
+
+@media (prefers-color-scheme: dark) {
+	body {
+		background-color: black;
+		color: white;
+	}
+	h1 a {
+		color: white;
+	}
+	a {
+		color: deepskyblue;
+	}
+	textarea {
+		background-color: black;
+		border-color: white;
+		color: white;
+	}
+}
