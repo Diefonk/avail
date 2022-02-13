@@ -1,7 +1,33 @@
 {% include 'header.html' %}
 
 <main>
-	<h2>TODO</h2>
+	<form action="/post-new" method="post">
+		<h2>
+			When are you available for
+			<input type="text" name="title" placeholder="{{ title_example }}" required>
+			?
+		</h2>
+
+		<label for="start">First day</label>
+		<input type="date" name="start" min="{{ today }}" required>
+		<br>
+
+		<label for="length">Number of days</label>
+		<input type="number" name="length" value="7" min="1" max="31" required>
+		<br>
+
+		<label for="resolution">Resolution</label>
+		<select name="resolution">
+			<option value="6">10 minutes</option>
+			<option value="4">15 minutes</option>
+			<option value="3">20 minutes</option>
+			<option value="2">30 minutes</option>
+			<option value="1" selected>1 hour</option>
+		</select>
+		<br><br>
+
+		<button type="submit">Create</button>
+	</form>
 </main>
 
 {% include 'footer.html' %}

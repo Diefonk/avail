@@ -3,17 +3,21 @@
 	<head>
 		{% if title %}
 			<title>{{ title }} - Available</title>
+		{% elif data %}
+			<title>{{ data["title"] }} - Available</title>
 		{% else %}
 			<title>Available</title>
 		{% endif %}
 		<meta charset="utf-8">
 		{% if description %}
 			<meta name="description" content="{{ description }}">
+		{% elif data %}
+			<meta name="description" content="When are you available for {{ data['title'] }}?">
 		{% else %}
 			<meta name="description" content="Figure out when everyone is available for that thing.">
 		{% endif %}
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="{{ url_for('static', filename = 'styles/style.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename = 'style.css') }}">
 	</head>
 	<body>
 		<header>
