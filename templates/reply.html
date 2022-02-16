@@ -1,0 +1,16 @@
+{% include "header.html" %}
+
+<main>
+	<h2>When are you available for <span class="blue">{{ data["title"] }}</span>?</h2>
+	<br>
+
+	<form action="/{{ id }}/post-reply" method="post">
+		<label for="name">Name</label>
+		<input type="text" name="name" id="name" required>
+		<br><br>
+
+		<button type="submit">Submit</button>
+	</form>
+</main>
+
+{% include "footer.html" %}

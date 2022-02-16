@@ -1,0 +1,12 @@
+{% include "header.html" %}
+
+<main>
+	<h2>Edit reply for <span class="blue">{{ data["title"] }}</span></h2>
+	<br>
+
+	<form action="/{{ id }}/reply" method="get">
+		<button type="submit">Submit</button>
+	</form>
+</main>
+
+{% include "footer.html" %}

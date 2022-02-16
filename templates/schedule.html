@@ -1,7 +1,23 @@
-{% include 'header.html' %}
+{% include "header.html" %}
 
 <main>
-	<h2>When are you available for {{ data["title"] }}?</h2>
+	<h2>When are you available for <span class="blue">{{ data["title"] }}</span>?</h2>
+	<br>
+
+	<a href="/{{ id }}/reply">New reply</a> |
+	<a href="/{{ id }}/edit">Edit reply</a>
+	<br><br><br>
+
+	{% if has_replies %}
+		<h3>Replies</h3>
+		{% for reply in data["replies"] %}
+			<br>
+			<label>{{ reply["name"] }}</label>
+			<br>
+		{% endfor %}
+	{% else %}
+		<h3>No replies yet</h3>
+	{% endif %}
 </main>
 
-{% include 'footer.html' %}
+{% include "footer.html" %}

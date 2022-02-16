@@ -20,6 +20,7 @@ def post_new():
 	data["start"] = request.form["start"]
 	data["length"] = request.form["length"]
 	data["resolution"] = request.form["resolution"]
+	data["replies"] = []
 	id = str(uuid4())
 	with open("data/schedule/" + id + ".json", "w") as file:
 		dump(data, file, separators = (',', ':'))
@@ -32,7 +33,39 @@ def schedule(id):
 		return render_template("error.html", error = "Invalid ID!")
 	with open(path, "r") as file:
 		data = load(file)
-	return render_template("schedule.html", data = data)
+	return render_template("schedule.html", data = data, id = str(id), has_replies = len(data["replies"]) > 0)
+
+@app.route("/<uuid:id>/reply")
+def reply(id):
+	path = "data/schedule/" + str(id) + ".json"
+	if not exists(path):
+		return render_template("error.html", error = "Invalid ID!")
+	with open(path, "r") as file:
+		data = load(file)
+	return render_template("reply.html", data = data, id = str(id))
+
+@app.route("/<uuid:id>/edit")
+def edit(id):
+	path = "data/schedule/" + str(id) + ".json"
+	if not exists(path):
+		return render_template("error.html", error = "Invalid ID!")
+	with open(path, "r") as file:
+		data = load(file)
+	return render_template("edit.html", data = data, id = str(id))
+
+@app.route("/<uuid:id>/post-reply", methods = ["POST"])
+def post_reply(id):
+	path = "data/schedule/" + str(id) + ".json"
+	if not exists(path):
+		return render_template("error.html", error = "Invalid ID!")
+	reply = {}
+	reply["name"] = request.form["name"]
+	with open(path, "r") as file:
+		data = load(file)
+	data["replies"].append(reply)
+	with open(path, "w") as file:
+		dump(data, file, separators = (',', ':'))
+	return redirect("/" + str(id))
 
 @app.route("/feedback")
 def feedback():
