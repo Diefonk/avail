@@ -1,11 +1,20 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	border-collapse: collapse;
+	border: none;
+	outline: none;
+	font-family: Helvetica, sans-serif;
+	font-weight: normal;
+	font-size: 16px;
+}
 body {
 	max-width: 800px;
 	margin: auto;
 	padding: 16px;
 	background-color: white;
-	font-family: Helvetica, sans-serif;
 	color: black;
-	font-size: 16px;
 }
 header, nav {
 	display: inline-block;
@@ -13,24 +22,64 @@ header, nav {
 nav {
 	float: right;
 }
+h1 {
+	font-size: 40px;
+	margin-top: 16px;
+	margin-bottom: 16px;
+}
 h1 a {
-	color: black;
+	color: white;
+	background-color: blue;
 	text-decoration: none;
+	border-radius: 8px;
+	padding: 8px;
+}
+h2 {
+	font-size: 32px;
+}
+h3 {
+	font-size: 24px;
 }
 a {
+	font-size: 1em;
 	color: blue;
 	text-decoration: underline;
+}
+input, select {
+	font-size: 1em;
+	color: black;
+	background-color: white;
+	border: 2px solid blue;
+	border-radius: 8px;
+	padding: 8px;
 }
 textarea {
 	width: 100%;
 	resize: vertical;
-	font-family: Helvetica, sans-serif;
 	background-color: white;
-	border-color: black;
+	border: 2px solid blue;
+	border-radius: 8px;
+	padding: 8px;
 	color: black;
+}
+button {
+	color: white;
+	background-color: blue;
+	border-radius: 8px;
+	padding: 8px;
 }
 footer {
 	text-align: center;
+}
+hr {
+	border: 1px solid black;
+	width: 100%;
+	margin-top: 32px;
+	margin-bottom: 32px;
+}
+.blue {
+	font-size: 1em;
+	color: blue;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -39,14 +88,30 @@ footer {
 		color: white;
 	}
 	h1 a {
-		color: white;
+		color: black;
+		background-color: deepskyblue;
 	}
 	a {
 		color: deepskyblue;
 	}
+	input, select {
+		color: white;
+		background-color: black;
+		border-color: deepskyblue;
+	}
 	textarea {
 		background-color: black;
-		border-color: white;
+		border-color: deepskyblue;
 		color: white;
+	}
+	button {
+		color: black;
+		background-color: deepskyblue;
+	}
+	hr {
+		border-color: white;
+	}
+	.blue {
+		color: deepskyblue;
 	}
 }
