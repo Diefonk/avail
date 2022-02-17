@@ -11,15 +11,18 @@ app = Flask(__name__)
 def index():
 	titles = ["D&D", "movie marathon", "video hangout", "project meeting", "playing games", "picnic"]
 	today = strftime("%Y-%m-%d")
-	return render_template("index.html", title_example = choice(titles), today = today)
+	with open("static/timezones.json", "r") as file:
+		timezones = load(file)
+	return render_template("index.html", title_example = choice(titles), today = today, timezones = timezones)
 
 @app.route("/post-new", methods = ["POST"])
 def post_new():
 	data = {}
 	data["title"] = request.form["title"]
 	data["start"] = request.form["start"]
-	data["length"] = request.form["length"]
-	data["resolution"] = request.form["resolution"]
+	data["length"] = int(request.form["length"])
+	data["timezone"] = int(request.form["timezone"])
+	data["resolution"] = int(request.form["resolution"])
 	data["replies"] = []
 	id = str(uuid4())
 	with open("data/schedule/" + id + ".json", "w") as file:

@@ -17,6 +17,17 @@
 		<input type="number" name="length" id="length" value="7" min="1" max="31" required>
 		<br><br>
 
+		<label for="timezone">Time zone</label>
+		<select name="timezone" id="timezone">
+			{% for zone in timezones %}
+				<option value="{{ zone['offset'] }}" {% if zone["offset"] == 0 %} selected {% endif %}>{{ zone["name"] }}</option>
+			{% endfor %}
+		</select>
+		<script>
+			setTimezone();
+		</script>
+		<br><br>
+
 		<label for="resolution">Time resolution</label>
 		<select name="resolution" id="resolution">
 			<option value="1" selected>1 hour</option>
