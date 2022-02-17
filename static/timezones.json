@@ -1,0 +1,166 @@
+[
+	{
+		"name": "UTC-12 (AoE)",
+		"offset": 720
+	},
+	{
+		"name": "UTC-11 (NUT/SST)",
+		"offset": 660
+	},
+	{
+		"name": "UTC-10 (CKT/HST/TAHT)",
+		"offset": 600
+	},
+	{
+		"name": "UTC-09:30 (MART)",
+		"offset": 570
+	},
+	{
+		"name": "UTC-09 (AKST/GAMT/HDT)",
+		"offset": 540
+	},
+	{
+		"name": "UTC-08 (AKDT/PST)",
+		"offset": 480
+	},
+	{
+		"name": "UTC-07 (MST/PDT)",
+		"offset": 420
+	},
+	{
+		"name": "UTC-06 (CST/EAST/GALT/MDT)",
+		"offset": 360
+	},
+	{
+		"name": "UTC-05 (ACT/CDT/CIST/COT/CST/EASST/ECT/EST/PET)",
+		"offset": 300
+	},
+	{
+		"name": "UTC-04 (AMT/AST/BOT/CDT/CIDST/CLT/EDT/FKT/GYT/PYT/VET)",
+		"offset": 240
+	},
+	{
+		"name": "UTC-03:30 (NST)",
+		"offset": 210
+	},
+	{
+		"name": "UTC-03 (ADT/AMST/ART/BRT/CLST/FKST/GFT/PMST/PYST/ROTT/SRT/UYT/WARST/WGT)",
+		"offset": 180
+	},
+	{
+		"name": "UTC-02:30 (NDT)",
+		"offset": 150
+	},
+	{
+		"name": "UTC-02 (BRST/FNT/GST/PMDT/UYST/WGST)",
+		"offset": 120
+	},
+	{
+		"name": "UTC-01 (AZOT/CVT/EGT)",
+		"offset": 60
+	},
+	{
+		"name": "UTC (GMT/AZOST/EGST/WET/WT)",
+		"offset": 0
+	},
+	{
+		"name": "UTC+01 (BST/CET/IST/WAT/WEST/WST)",
+		"offset": -60
+	},
+	{
+		"name": "UTC+02 (CAT/CEST/EET/IST/SAST/WAST)",
+		"offset": -120
+	},
+	{
+		"name": "UTC+03 (AST/EAT/EEST/FET/IDT/MSK/SYOT/TRT)",
+		"offset": -180
+	},
+	{
+		"name": "UTC+03:30 (IRST)",
+		"offset": -210
+	},
+	{
+		"name": "UTC+04 (ADT/AMT/AZT/GET/GST/KUYT/MSD/MUT/RET/SAMT/SCT)",
+		"offset": -240
+	},
+	{
+		"name": "UTC+04:30 (AFT/IRDT)",
+		"offset": -270
+	},
+	{
+		"name": "UTC+05 (AMST/AQTT/AZST/MAWT/MVT/ORAT/PKT/TFT/TJT/TMT/UZT/YEKT)",
+		"offset": -300
+	},
+	{
+		"name": "UTC+05:30 (IST)",
+		"offset": -330
+	},
+	{
+		"name": "UTC+05:45 (NPT)",
+		"offset": -345
+	},
+	{
+		"name": "UTC+06 (ALMT/BST/BTT/IOT/KGT/OMST/QYZT/VOST/YEKST)",
+		"offset": -360
+	},
+	{
+		"name": "UTC+06:30 (CCT/MMT)",
+		"offset": -390
+	},
+	{
+		"name": "UTC+07 (CXT/DAVT/HOVT/ICT/KRAT/NOVST/NOVT/OMSST/WIB)",
+		"offset": -420
+	},
+	{
+		"name": "UTC+08 (AWST/BNT/CAST/CHOT/CST/HKT/HOVST/IRKT/KRAST/MYT/PHT/SGT/ULAT/WITA)",
+		"offset": -480
+	},
+	{
+		"name": "UTC+08:30 (PYT)",
+		"offset": -510
+	},
+	{
+		"name": "UTC+08:45 (ACWST)",
+		"offset": -525
+	},
+	{
+		"name": "UTC+09 (AWDT/CHOST/IRKST/JST/KST/PWT/TLT/ULAST/WIT/YAKT)",
+		"offset": -540
+	},
+	{
+		"name": "UTC+09:30 (ACST)",
+		"offset": -570
+	},
+	{
+		"name": "UTC+10 (AEST/CHUT/ChST/DDUT/PGT/VLAT/YAKST/YAPT)",
+		"offset": -600
+	},
+	{
+		"name": "UTC+10:30 (ACDT/LHST)",
+		"offset": -630
+	},
+	{
+		"name": "UTC+11 (AEDT/BST/KOST/LHDT/MAGT/NCT/NFT/PONT/SAKT/SBT/SRET/VLAT/VUT)",
+		"offset": -660
+	},
+	{
+		"name": "UTC+12 (ANAST/ANAT/FJT/GILT/MAGST/MHT/NFDT/NRT/NZST/PETST/PETT/TVT/WAKT/WFT)",
+		"offset": -720
+	},
+	{
+		"name": "UTC+12:45 (CHAST)",
+		"offset": -765
+	},
+	{
+		"name": "UTC+13 (FJST/NZDT/PHOT/TKT/TOT/WST)",
+		"offset": -780
+	},
+	{
+		"name": "UTC+13:45 (CHADT)",
+		"offset": -825
+	},
+	{
+		"name": "UTC+14 (LINT/TOST)",
+		"offset": -840
+	}
+]
