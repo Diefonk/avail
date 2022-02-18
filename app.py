@@ -45,7 +45,12 @@ def reply(id):
 		return render_template("error.html", error = "Invalid ID!")
 	with open(path, "r") as file:
 		data = load(file)
-	return render_template("reply.html", data = data, id = str(id))
+	with open("static/timezones.json", "r") as file:
+		timezones = load(file)
+	times = []
+	for index in range(data["length"] * 24 * data["resolution"]):
+		times.append({"index": index, "name": ""})
+	return render_template("reply.html", data = data, id = str(id), timezones = timezones, times = times)
 
 @app.route("/<uuid:id>/edit")
 def edit(id):
@@ -61,10 +66,16 @@ def post_reply(id):
 	path = "data/schedule/" + str(id) + ".json"
 	if not exists(path):
 		return render_template("error.html", error = "Invalid ID!")
-	reply = {}
-	reply["name"] = request.form["name"]
 	with open(path, "r") as file:
 		data = load(file)
+	reply = {}
+	reply["name"] = request.form["name"]
+	reply["timezone"] = request.form["timezone"]
+	times = "0" * data["length"] * 24 * data["resolution"]
+	for index in range(len(times)):
+		if str(index) in request.form:
+			times = times[:index] + "1" + times[index + 1:]
+	reply["times"] = times
 	data["replies"].append(reply)
 	with open(path, "w") as file:
 		dump(data, file, separators = (',', ':'))

@@ -6,8 +6,36 @@
 
 	<form action="/{{ id }}/post-reply" method="post">
 		<label for="name">Name</label>
-		<input type="text" name="name" id="name" required>
+		<input type="text" name="name" id="name" required {% if data["name"] %} value="{{ data['name'] }} {% endif %}">
 		<br><br>
+
+		<label for="timezone">Time zone</label>
+		<select name="timezone" id="timezone" class="js">
+			{% for zone in timezones %}
+				<option value="{{ zone['offset'] }}" {% if zone["offset"] == data["timezone"] %} selected {% endif %}>{{ zone["name"] }}</option>
+			{% endfor %}
+		</select>
+		<noscript>
+			<label>
+				{% for zone in timezones %}
+					{% if zone["offset"] == data["timezone"] %}
+						{{ zone["name"] }}
+					{% endif %}
+				{% endfor %}
+				<i>- Requires JavaScript to change</i>
+			</label>
+		</noscript>
+		<script>
+			setTimezone();
+		</script>
+		<br><br>
+
+		{% for time in times %}
+			<label for="{{ time['index'] }}">{{ time["name"] }}</label>
+			<input type="checkbox" name="{{ time['index'] }}" id="{{ time['index'] }}" {% if time["checked"] %} checked {% endif %}>
+			<br>
+		{% endfor %}
+		<br>
 
 		<button type="submit">Submit</button>
 	</form>
