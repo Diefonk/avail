@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, request
 from time import time_ns, strftime
+from datetime import datetime, timedelta
 from random import choice
 from uuid import uuid4
 from json import dump, load
@@ -20,9 +21,9 @@ def post_new():
 	data = {}
 	data["title"] = request.form["title"]
 	data["start"] = request.form["start"]
-	data["length"] = int(request.form["length"])
+	data["length"] = int(request.form["length"]) * 24 * int(request.form["resolution"])
 	data["timezone"] = int(request.form["timezone"])
-	data["resolution"] = int(request.form["resolution"])
+	data["interval"] = 60 / int(request.form["resolution"])
 	data["replies"] = []
 	id = str(uuid4())
 	with open("data/schedule/" + id + ".json", "w") as file:
@@ -45,11 +46,25 @@ def reply(id):
 		return render_template("error.html", error = "Invalid ID!")
 	with open(path, "r") as file:
 		data = load(file)
+	data["replyTimezone"] = data["timezone"]
+	#data["name"]
 	with open("static/timezones.json", "r") as file:
 		timezones = load(file)
 	times = []
-	for index in range(data["length"] * 24 * data["resolution"]):
-		times.append({"index": index, "name": ""})
+	timestamp = datetime.strptime(data["start"], "%Y-%m-%d")
+	timestamp = timestamp + timedelta(minutes = data["timezone"] - data["replyTimezone"])
+	date = ""
+	for index in range(data["length"]):
+		time = {}
+		time["index"] = index
+		time["label"] = datetime.strftime(timestamp, "%H:%M")
+		#time["checked"]
+		next_date = datetime.strftime(timestamp, "%B %d, %A")
+		if date != next_date:
+			time["date"] = next_date
+			date = next_date
+		times.append(time)
+		timestamp = timestamp + timedelta(minutes = data["interval"])
 	return render_template("reply.html", data = data, id = str(id), timezones = timezones, times = times)
 
 @app.route("/<uuid:id>/edit")
@@ -69,17 +84,20 @@ def post_reply(id):
 	with open(path, "r") as file:
 		data = load(file)
 	reply = {}
+	reply["key"] = uuid4().hex
 	reply["name"] = request.form["name"]
 	reply["timezone"] = request.form["timezone"]
-	times = "0" * data["length"] * 24 * data["resolution"]
-	for index in range(len(times)):
+	times = ""
+	for index in range(data["length"]):
 		if str(index) in request.form:
-			times = times[:index] + "1" + times[index + 1:]
+			times += "1"
+		else:
+			times += "0"
 	reply["times"] = times
 	data["replies"].append(reply)
 	with open(path, "w") as file:
 		dump(data, file, separators = (',', ':'))
-	return redirect("/" + str(id))
+	return redirect("/" + str(id) + "/replied?key=" + reply["key"])
 
 @app.route("/feedback")
 def feedback():

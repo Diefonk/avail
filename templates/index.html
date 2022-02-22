@@ -23,9 +23,7 @@
 				<option value="{{ zone['offset'] }}" {% if zone["offset"] == 0 %} selected {% endif %}>{{ zone["name"] }}</option>
 			{% endfor %}
 		</select>
-		<script>
-			setTimezone();
-		</script>
+		<script src="{{ url_for('static', filename = 'setTimezone.js') }}"></script>
 		<br><br>
 
 		<label for="resolution">Time resolution</label>
