@@ -1,0 +1,23 @@
+{% include "header.html" %}
+
+<main>
+	<h2>Reply submitted!</h2>
+	<br>
+
+	<label for="key">Key</label>
+	<input type="text" id="key" value="{{ key }}" disabled>
+	<button id="button" class="js" onclick="copyKey()">Copy</button>
+	<br><br>
+	Save the key to be able to <a href="/{{ id }}/edit">edit</a> your reply
+	<script>
+		function copyKey() {
+			navigator.clipboard.writeText("{{ key }}");
+			document.getElementById("button").innerHTML = "&#10003; Copied";
+		}
+	</script>
+	<br><br><br>
+
+	<a href="/{{ id }}">Back to main page for {{ data["title"] }}</a>
+</main>
+
+{% include "footer.html" %}

@@ -46,9 +46,21 @@ def reply(id):
 		return render_template("error.html", error = "Invalid ID!")
 	with open(path, "r") as file:
 		data = load(file)
-	data["replyTimezone"] = data["timezone"]
-	data["format"] = "24"
-	#data["name"]
+	edit_reply = None
+	if "key" in request.args:
+		for reply in data["replies"]:
+			if reply["key"] == request.args["key"]:
+				edit_reply = reply
+				break
+		if edit_reply is None:
+			return redirect("/" + str(id) + "/edit?invkey=" + request.args["key"])
+		data["key"] = request.args["key"]
+		data["name"] = edit_reply["name"]
+		data["replyTimezone"] = edit_reply["timezone"]
+		data["format"] = edit_reply["format"]
+	else:
+		data["replyTimezone"] = data["timezone"]
+		data["format"] = "24"
 	with open("static/timezones.json", "r") as file:
 		timezones = load(file)
 	times = []
@@ -62,7 +74,8 @@ def reply(id):
 			time["label"] = datetime.strftime(timestamp, "%I:%M %p")
 		else:
 			time["label"] = datetime.strftime(timestamp, "%H:%M")
-		#time["checked"]
+		if edit_reply and edit_reply["times"][index:index + 1] == "1":
+			time["checked"] = True
 		next_date = datetime.strftime(timestamp, "%B %d, %A")
 		if date != next_date:
 			time["date"] = next_date
@@ -70,15 +83,6 @@ def reply(id):
 		times.append(time)
 		timestamp = timestamp + timedelta(minutes = data["interval"])
 	return render_template("reply.html", data = data, id = str(id), timezones = timezones, times = times)
-
-@app.route("/<uuid:id>/edit")
-def edit(id):
-	path = "data/schedule/" + str(id) + ".json"
-	if not exists(path):
-		return render_template("error.html", error = "Invalid ID!")
-	with open(path, "r") as file:
-		data = load(file)
-	return render_template("edit.html", data = data, id = str(id))
 
 @app.route("/<uuid:id>/post-reply", methods = ["POST"])
 def post_reply(id):
@@ -88,9 +92,13 @@ def post_reply(id):
 	with open(path, "r") as file:
 		data = load(file)
 	reply = {}
-	reply["key"] = uuid4().hex
+	if "key" in request.form:
+		reply["key"] = request.form["key"]
+	else:
+		reply["key"] = uuid4().hex
 	reply["name"] = request.form["name"]
-	reply["timezone"] = request.form["timezone"]
+	reply["timezone"] = int(request.form["timezone"])
+	reply["format"] = request.form["format"]
 	times = ""
 	for index in range(data["length"]):
 		if str(index) in request.form:
@@ -98,10 +106,40 @@ def post_reply(id):
 		else:
 			times += "0"
 	reply["times"] = times
-	data["replies"].append(reply)
+	if "key" in request.form:
+		for index, existing_reply in enumerate(data["replies"]):
+			if reply["key"] == existing_reply["key"]:
+				data["replies"][index] = reply
+				break
+	else:
+		data["replies"].append(reply)
 	with open(path, "w") as file:
 		dump(data, file, separators = (',', ':'))
 	return redirect("/" + str(id) + "/replied?key=" + reply["key"])
+
+@app.route("/<uuid:id>/replied")
+def replied(id):
+	path = "data/schedule/" + str(id) + ".json"
+	if not exists(path):
+		return render_template("error.html", error = "Invalid ID!")
+	with open(path, "r") as file:
+		data = load(file)
+	if "key" in request.args:
+		return render_template("replied.html", data = data, id = str(id), key = request.args["key"])
+	else:
+		return redirect("/" + str(id))
+
+@app.route("/<uuid:id>/edit")
+def edit(id):
+	path = "data/schedule/" + str(id) + ".json"
+	if not exists(path):
+		return render_template("error.html", error = "Invalid ID!")
+	with open(path, "r") as file:
+		data = load(file)
+	invkey = None
+	if "invkey" in request.args:
+		invkey = request.args["invkey"]
+	return render_template("edit.html", data = data, id = str(id), invkey = invkey)
 
 @app.route("/feedback")
 def feedback():

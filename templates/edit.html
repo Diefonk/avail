@@ -5,6 +5,13 @@
 	<br>
 
 	<form action="/{{ id }}/reply" method="get">
+		<label for="key">Key</label>
+		<input type="text" name="key" id="key" {% if invkey %} value="{{ invkey }}" {% endif %} required>
+		{% if invkey %}
+			<i>Invalid key</i>
+		{% endif %}
+		<br><br>
+
 		<button type="submit">Submit</button>
 	</form>
 </main>

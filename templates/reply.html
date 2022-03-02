@@ -6,7 +6,7 @@
 
 	<form action="/{{ id }}/post-reply" method="post">
 		<label for="name">Name</label>
-		<input type="text" name="name" id="name" required {% if data["name"] %} value="{{ data['name'] }} {% endif %}">
+		<input type="text" name="name" id="name" required {% if data["name"] %} value="{{ data['name'] }}" {% endif %}>
 		<br><br>
 
 		<label for="timezone">Time zone</label>
@@ -127,6 +127,10 @@
 			changeTimezone();
 		</script>
 		<br>
+
+		{% if data["key"] %}
+			<input type="text" name="key" value="{{ data['key'] }}" hidden>
+		{% endif %}
 
 		<button type="submit">Submit</button>
 	</form>
