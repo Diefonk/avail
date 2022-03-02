@@ -25,7 +25,26 @@
 				<i>- Requires JavaScript to change</i>
 			</label>
 		</noscript>
-		<script src="{{ url_for('static', filename = 'setTimezone.js') }}"></script>
+		{% if not data["name"] %}
+			<script src="{{ url_for('static', filename = 'setTimezone.js') }}"></script>
+		{% endif %}
+		<br><br>
+
+		<label for="format">Time format</label>
+		<select name="format" id="format" class="js" onchange="changeTimezone()">
+			<option value="12" {% if data["format"] == "12" %} selected {% endif %}>12h (am/pm)</option>
+			<option value="24" {% if data["format"] == "24" %} selected {% endif %}>24h (00-23)</option>
+		</select>
+		<noscript>
+			<label>
+				{% if data["format"] == "12" %}
+					12h (am/pm)
+				{% else %}
+					24h (00-23)
+				{% endif %}
+				<i>- Requires JavaScript to change</i>
+			</label>
+		</noscript>
 		<br><br>
 
 		{% for time in times %}
@@ -41,6 +60,29 @@
 			<br>
 		{% endfor %}
 		<script>
+			const weekdays = [
+				"Sunday",
+				"Monday",
+				"Tuesday",
+				"Wednesday",
+				"Thursday",
+				"Friday",
+				"Saturday"
+			];
+			const months = [
+				"January",
+				"February",
+				"March",
+				"April",
+				"May",
+				"June",
+				"July",
+				"August",
+				"September",
+				"October",
+				"November",
+				"December"
+			];
 			function changeTimezone() {
 				const timezone = Number(document.getElementById("timezone").value);
 				let time = new Date("{{ data['start'] }}");
@@ -49,31 +91,27 @@
 				let date = "";
 				for (let index = 0; index < {{ data["length"] }}; index++) {
 					let timeLabel = document.getElementById("time" + index);
-					timeLabel.innerHTML = time.toTimeString().substr(0, 5);
+					if (document.getElementById("format").value === "12") {
+						let hours = time.getHours();
+						let suffix = hours < 12 ? " am" : " pm";
+						if (hours === 0) {
+							hours = "12:";
+						} else if (hours > 12) {
+							hours = (hours - 12).toString() + ":";
+						} else {
+							hours = hours.toString() + ":";
+						}
+						let minutes = time.getMinutes();
+						if (minutes < 10) {
+							minutes = "0" + minutes;
+						} else {
+							minutes = minutes.toString();
+						}
+						timeLabel.innerHTML = hours + minutes + suffix;
+					} else {
+						timeLabel.innerHTML = time.toTimeString().substr(0, 5);
+					}
 					let dateLabel = document.getElementById("date" + index);
-					const weekdays = [
-						"Sunday",
-						"Monday",
-						"Tuesday",
-						"Wednesday",
-						"Thursday",
-						"Friday",
-						"Saturday"
-					];
-					const months = [
-						"January",
-						"February",
-						"March",
-						"April",
-						"May",
-						"June",
-						"July",
-						"August",
-						"September",
-						"October",
-						"November",
-						"December"
-					];
 					let nextDate = months[time.getMonth()] + " ";
 					nextDate += time.getDate() + ", ";
 					nextDate += weekdays[time.getDay()];

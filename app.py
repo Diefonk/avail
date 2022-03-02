@@ -47,6 +47,7 @@ def reply(id):
 	with open(path, "r") as file:
 		data = load(file)
 	data["replyTimezone"] = data["timezone"]
+	data["format"] = "24"
 	#data["name"]
 	with open("static/timezones.json", "r") as file:
 		timezones = load(file)
@@ -57,7 +58,10 @@ def reply(id):
 	for index in range(data["length"]):
 		time = {}
 		time["index"] = index
-		time["label"] = datetime.strftime(timestamp, "%H:%M")
+		if data["format"] == "12":
+			time["label"] = datetime.strftime(timestamp, "%I:%M %p")
+		else:
+			time["label"] = datetime.strftime(timestamp, "%H:%M")
 		#time["checked"]
 		next_date = datetime.strftime(timestamp, "%B %d, %A")
 		if date != next_date:
