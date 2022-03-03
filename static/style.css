@@ -69,6 +69,15 @@ button {
 	border-radius: 8px;
 	padding: 8px;
 }
+input[type="checkbox"] + label {
+	border: 2px solid blue;
+	border-radius: 8px;
+	padding: 4px;
+}
+input[type="checkbox"]:checked + label {
+	color: white;
+	background-color: blue;
+}
 footer {
 	text-align: center;
 }
@@ -108,9 +117,12 @@ ul {
 		border-color: deepskyblue;
 		color: white;
 	}
-	button {
+	button, input[type="checkbox"]:checked + label {
 		color: black;
 		background-color: deepskyblue;
+	}
+	input[type="checkbox"] + label {
+		border-color: deepskyblue;
 	}
 	hr {
 		border-color: white;

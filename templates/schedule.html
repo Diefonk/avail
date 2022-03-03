@@ -147,7 +147,7 @@
 						if (date !== nextDate) {
 							times += nextDate + " ";
 						}
-						times += getTimeText(time, format) + "</li>\n";
+						times += getTimeText(time, format) + "</li>";
 					}
 					previousTime = nextTime;
 					time.setMinutes(time.getMinutes() + {{ data["interval"] }});
@@ -157,7 +157,7 @@
 					if (date !== nextDate) {
 						times += nextDate + " ";
 					}
-					times += getTimeText(time, format) + "</li>\n";
+					times += getTimeText(time, format) + "</li>";
 				}
 				document.getElementById("times").innerHTML = times;
 				if (times === "") {
