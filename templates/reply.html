@@ -85,13 +85,14 @@
 			];
 			function changeTimezone() {
 				const timezone = Number(document.getElementById("timezone").value);
+				const format = document.getElementById("format").value;
 				let time = new Date("{{ data['start'] }}");
 				time.setHours(0);
 				time.setMinutes(time.getMinutes() + ({{ data["timezone"] }} - timezone));
 				let date = "";
 				for (let index = 0; index < {{ data["length"] }}; index++) {
 					let timeLabel = document.getElementById("time" + index);
-					if (document.getElementById("format").value === "12") {
+					if (format === "12") {
 						let hours = time.getHours();
 						let suffix = hours < 12 ? " am" : " pm";
 						if (hours === 0) {

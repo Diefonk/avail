@@ -78,6 +78,9 @@ hr {
 	margin-top: 32px;
 	margin-bottom: 32px;
 }
+ul {
+	margin-left: 16px;
+}
 .blue {
 	font-size: 1em;
 	color: blue;

@@ -8,7 +8,7 @@
 	<input type="text" id="key" value="{{ key }}" disabled>
 	<button id="button" class="js" onclick="copyKey()">Copy</button>
 	<br><br>
-	Save the key to be able to <a href="/{{ id }}/edit">edit</a> your reply
+	<p>Save the key to be able to <a href="/{{ id }}/edit">edit</a> your reply</p>
 	<script>
 		function copyKey() {
 			navigator.clipboard.writeText("{{ key }}");

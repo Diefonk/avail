@@ -37,7 +37,35 @@ def schedule(id):
 		return render_template("error.html", error = "Invalid ID!")
 	with open(path, "r") as file:
 		data = load(file)
-	return render_template("schedule.html", data = data, id = str(id), has_replies = len(data["replies"]) > 0)
+	times = []
+	if len(data["replies"]) > 0:
+		previous_time = False
+		timestamp = datetime.strptime(data["start"], "%Y-%m-%d")
+		date = ""
+		for index in range(data["length"]):
+			next_time = True
+			for reply in data["replies"]:
+				if reply["times"][index:index + 1] != "1":
+					next_time = False
+					break
+			if not previous_time and next_time:
+				date = datetime.strftime(timestamp, "%B %d, %A ")
+				times.append(date + datetime.strftime(timestamp, "%H:%M - "))
+			elif previous_time and not next_time:
+				next_date = datetime.strftime(timestamp, "%B %d, %A ")
+				if date != next_date:
+					times[-1] += next_date
+				times[-1] += datetime.strftime(timestamp, "%H:%M")
+			previous_time = next_time
+			timestamp = timestamp + timedelta(minutes = data["interval"])
+		if previous_time:
+			next_date = datetime.strftime(timestamp, "%B %d, %A ")
+			if date != next_date:
+				times[-1] += next_date
+			times[-1] += datetime.strftime(timestamp, "%H:%M")
+	with open("static/timezones.json", "r") as file:
+		timezones = load(file)
+	return render_template("schedule.html", data = data, id = str(id), has_replies = len(data["replies"]) > 0, reply_range = range(len(data["replies"])), times = times, has_overlap = len(times) > 0, timezones = timezones)
 
 @app.route("/<uuid:id>/reply")
 def reply(id):

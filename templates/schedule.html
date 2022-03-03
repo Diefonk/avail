@@ -10,11 +10,164 @@
 
 	{% if has_replies %}
 		<h3>Replies</h3>
-		{% for reply in data["replies"] %}
+		{% for index in reply_range %}
 			<br>
-			<label>{{ reply["name"] }}</label>
+			<input type="checkbox" id="reply{{ index }}" class="js" checked onchange="updateOverlap()">
+			<label for="reply{{ index }}">{{ data["replies"][index]["name"] }}</label>
 			<br>
 		{% endfor %}
+		<br><br>
+
+		<label for="timezone">Time zone</label>
+		<select id="timezone" class="js" onchange="updateOverlap()">
+			{% for zone in timezones %}
+				<option value="{{ zone['offset'] }}" {% if zone["offset"] == data["timezone"] %} selected {% endif %}>{{ zone["name"] }}</option>
+			{% endfor %}
+		</select>
+		<noscript>
+			<label>
+				{% for zone in timezones %}
+					{% if zone["offset"] == data["timezone"] %}
+						{{ zone["name"] }}
+					{% endif %}
+				{% endfor %}
+				<i>- Requires JavaScript to change</i>
+			</label>
+		</noscript>
+		{% if not data["name"] %}
+			<script src="{{ url_for('static', filename = 'setTimezone.js') }}"></script>
+		{% endif %}
+		<br><br>
+
+		<label for="format">Time format</label>
+		<select id="format" class="js" onchange="updateOverlap()">
+			<option value="12">12h (am/pm)</option>
+			<option value="24" selected>24h (00-23)</option>
+		</select>
+		<noscript>
+			<label>
+				24h (00-23)
+				<i>- Requires JavaScript to change</i>
+			</label>
+		</noscript>
+		<br><br><br>
+
+		<h3 id="overlap">
+			{% if has_overlap %}
+				Overlapping times
+			{% else %}
+				No overlapping times
+			{% endif %}
+		</h3>
+		<br>
+		<ul id="times">
+			{% for time in times %}
+				<li>{{ time }}</li>
+			{% endfor %}
+		</ul>
+		<script>
+			const replies = [
+				{% for index in reply_range %}
+					{id: "reply{{ index }}", times: "{{ data['replies'][index]['times'] }}"},
+				{% endfor %}
+			];
+			const weekdays = [
+				"Sunday",
+				"Monday",
+				"Tuesday",
+				"Wednesday",
+				"Thursday",
+				"Friday",
+				"Saturday"
+			];
+			const months = [
+				"January",
+				"February",
+				"March",
+				"April",
+				"May",
+				"June",
+				"July",
+				"August",
+				"September",
+				"October",
+				"November",
+				"December"
+			];
+			function getDateText(time) {
+				let text = months[time.getMonth()] + " ";
+				text += time.getDate() + ", ";
+				text += weekdays[time.getDay()];
+				return text;
+			}
+			function getTimeText(time, format) {
+				if (format === "12") {
+					let hours = time.getHours();
+					let suffix = hours < 12 ? " am" : " pm";
+					if (hours === 0) {
+						hours = "12:";
+					} else if (hours > 12) {
+						hours = (hours - 12).toString() + ":";
+					} else {
+						hours = hours.toString() + ":";
+					}
+					let minutes = time.getMinutes();
+					if (minutes < 10) {
+						minutes = "0" + minutes;
+					} else {
+						minutes = minutes.toString();
+					}
+					return hours + minutes + suffix;
+				} else {
+					return time.toTimeString().substr(0, 5);
+				}
+			}
+			function updateOverlap() {
+				let times = "";
+				const timezone = Number(document.getElementById("timezone").value);
+				const format = document.getElementById("format").value;
+				let time = new Date("{{ data['start'] }}");
+				time.setHours(0);
+				time.setMinutes(time.getMinutes() + ({{ data["timezone"] }} - timezone));
+				let date = "";
+				let previousTime = false;
+				for (let index = 0; index < {{ data["length"] }}; index++) {
+					let nextTime = true;
+					for (let reply of replies) {
+						if (document.getElementById(reply.id).checked && reply.times.substr(index, 1) !== "1") {
+							nextTime = false;
+							break;
+						}
+					}
+					if (!previousTime && nextTime) {
+						date = getDateText(time);
+						times += "<li>" + date + " " + getTimeText(time, format) + " - ";
+					} else if (previousTime && !nextTime) {
+						let nextDate = getDateText(time);
+						if (date !== nextDate) {
+							times += nextDate + " ";
+						}
+						times += getTimeText(time, format) + "</li>\n";
+					}
+					previousTime = nextTime;
+					time.setMinutes(time.getMinutes() + {{ data["interval"] }});
+				}
+				if (previousTime) {
+					let nextDate = getDateText(time);
+					if (date !== nextDate) {
+						times += nextDate + " ";
+					}
+					times += getTimeText(time, format) + "</li>\n";
+				}
+				document.getElementById("times").innerHTML = times;
+				if (times === "") {
+					document.getElementById("overlap").innerHTML = "No overlapping times";
+				} else {
+					document.getElementById("overlap").innerHTML = "Overlapping times";
+				}
+			}
+			updateOverlap();
+		</script>
 	{% else %}
 		<h3>No replies yet</h3>
 	{% endif %}
