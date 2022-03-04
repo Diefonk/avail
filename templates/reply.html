@@ -84,6 +84,7 @@
 				"November",
 				"December"
 			];
+			var days = [];
 			function changeTimezone() {
 				const timezone = Number(document.getElementById("timezone").value);
 				const format = document.getElementById("format").value;
@@ -91,6 +92,8 @@
 				time.setHours(0);
 				time.setMinutes(time.getMinutes() + ({{ data["timezone"] }} - timezone));
 				let date = "";
+				days = [];
+				let dayIndex = 0;
 				for (let index = 0; index < {{ data["length"] }}; index++) {
 					let timeLabel = document.getElementById("time" + index);
 					if (format === "12") {
@@ -118,12 +121,43 @@
 					nextDate += time.getDate() + ", ";
 					nextDate += weekdays[time.getDay()];
 					if (date !== nextDate) {
-						dateLabel.innerHTML = "<br>" + nextDate + "<br>";
+						days.push({});
+						dayIndex = days.length - 1;
+						let label = "<br>" + nextDate;
+						label += " <button type='button' onclick='selectDay(" + dayIndex + ", true)'>Select all</button>";
+						label += " <button type='button' onclick='selectDay(" + dayIndex + ", false)'>Deselect all</button>";
+						label += " <button type='button' onclick='copyDay(" + dayIndex + ", 1)'>Copy to all days</button>";
+						label += " <button type='button' onclick='copyDay(" + dayIndex + ", 7)'>Copy to all " + weekdays[time.getDay()] + "s</button>";
+						label += "<br>";
+						dateLabel.innerHTML = label;
 						date = nextDate;
 					} else {
 						dateLabel.innerHTML = "";
 					}
+					days[dayIndex][timeLabel.innerHTML] = document.getElementById(index.toString());
 					time.setMinutes(time.getMinutes() + {{ data["interval"] }});
+				}
+			}
+			function selectDay(index, selected) {
+				for (let time in days[index]) {
+					days[index][time].checked = selected;
+				}
+			}
+			function copyDay(index, interval) {
+				let startIndex = index;
+				while (startIndex > 0) {
+					startIndex -= interval;
+					if (startIndex < 0) {
+						startIndex += interval;
+						break;
+					}
+				}
+				for (let time in days[index]) {
+					for (let copyIndex = startIndex; copyIndex < days.length; copyIndex += interval) {
+						if (days[copyIndex][time]) {
+							days[copyIndex][time].checked = days[index][time].checked;
+						}
+					}
 				}
 			}
 			changeTimezone();
