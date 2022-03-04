@@ -5,6 +5,7 @@ from random import choice
 from uuid import uuid4
 from json import dump, load
 from os.path import exists
+import traceback
 
 app = Flask(__name__)
 
@@ -34,7 +35,7 @@ def post_new():
 def schedule(id):
 	path = "data/schedule/" + str(id) + ".json"
 	if not exists(path):
-		return render_template("error.html", error = "Invalid ID!")
+		return render_template("error.html", error = "Invalid ID!"), 404
 	with open(path, "r") as file:
 		data = load(file)
 	times = []
@@ -71,7 +72,7 @@ def schedule(id):
 def reply(id):
 	path = "data/schedule/" + str(id) + ".json"
 	if not exists(path):
-		return render_template("error.html", error = "Invalid ID!")
+		return render_template("error.html", error = "Invalid ID!"), 404
 	with open(path, "r") as file:
 		data = load(file)
 	edit_reply = None
@@ -116,7 +117,7 @@ def reply(id):
 def post_reply(id):
 	path = "data/schedule/" + str(id) + ".json"
 	if not exists(path):
-		return render_template("error.html", error = "Invalid ID!")
+		return render_template("error.html", error = "Invalid ID!"), 404
 	with open(path, "r") as file:
 		data = load(file)
 	reply = {}
@@ -149,7 +150,7 @@ def post_reply(id):
 def replied(id):
 	path = "data/schedule/" + str(id) + ".json"
 	if not exists(path):
-		return render_template("error.html", error = "Invalid ID!")
+		return render_template("error.html", error = "Invalid ID!"), 404
 	with open(path, "r") as file:
 		data = load(file)
 	if "key" in request.args:
@@ -161,7 +162,7 @@ def replied(id):
 def edit(id):
 	path = "data/schedule/" + str(id) + ".json"
 	if not exists(path):
-		return render_template("error.html", error = "Invalid ID!")
+		return render_template("error.html", error = "Invalid ID!"), 404
 	with open(path, "r") as file:
 		data = load(file)
 	invkey = None
@@ -186,6 +187,16 @@ def post_feedback():
 @app.route("/thanks")
 def thanks():
 	return render_template("thanks.html", title = "Feedback")
+
+@app.errorhandler(404)
+def page_not_found(error):
+	return render_template("error.html", error = "404 - Page not found"), 404
+
+@app.errorhandler(500)
+def internal_server_error(error):
+	with open("data/logs/" + str(time_ns()) + ".txt", "w") as file:
+		file.write(traceback.format_exc())
+	return render_template("error.html", error = "500 - Internal server error"), 500
 
 if __name__ == "__main__":
 	app.run()
