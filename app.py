@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, make_response
 from time import time_ns, strftime
 from datetime import datetime, timedelta
 from random import choice
@@ -6,6 +6,7 @@ from uuid import uuid4
 from json import dump, load
 from os.path import exists
 import traceback
+from os import listdir
 
 app = Flask(__name__)
 
@@ -187,6 +188,22 @@ def post_feedback():
 @app.route("/thanks")
 def thanks():
 	return render_template("thanks.html", title = "Feedback")
+
+@app.route("/rss/feedback.xml")
+def rssFeedback():
+	items = listdir("data/feedback")
+	rss = render_template("rss.xml", title = "avail feedback", folder = "feedback", items = items)
+	response = make_response(rss)
+	response.mimetype = "application/rss+xml"
+	return response
+
+@app.route("/rss/error.xml")
+def rssError():
+	items = listdir("data/logs")
+	rss = render_template("rss.xml", title = "avail error logs", folder = "logs", items = items)
+	response = make_response(rss)
+	response.mimetype = "application/rss+xml"
+	return response
 
 @app.errorhandler(404)
 def page_not_found(error):
