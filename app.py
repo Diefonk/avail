@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, make_response
+from flask import Flask, render_template, redirect, request, make_response, abort
 from time import time_ns, strftime
 from datetime import datetime, timedelta
 from random import choice
@@ -36,7 +36,7 @@ def post_new():
 def schedule(id):
 	path = "data/schedule/" + str(id) + ".json"
 	if not exists(path):
-		return render_template("error.html", error = "Invalid ID!"), 404
+		abort(404)
 	with open(path, "r") as file:
 		data = load(file)
 	times = []
@@ -73,7 +73,7 @@ def schedule(id):
 def reply(id):
 	path = "data/schedule/" + str(id) + ".json"
 	if not exists(path):
-		return render_template("error.html", error = "Invalid ID!"), 404
+		abort(404)
 	with open(path, "r") as file:
 		data = load(file)
 	edit_reply = None
@@ -118,7 +118,7 @@ def reply(id):
 def post_reply(id):
 	path = "data/schedule/" + str(id) + ".json"
 	if not exists(path):
-		return render_template("error.html", error = "Invalid ID!"), 404
+		abort(404)
 	with open(path, "r") as file:
 		data = load(file)
 	reply = {}
@@ -151,7 +151,7 @@ def post_reply(id):
 def replied(id):
 	path = "data/schedule/" + str(id) + ".json"
 	if not exists(path):
-		return render_template("error.html", error = "Invalid ID!"), 404
+		abort(404)
 	with open(path, "r") as file:
 		data = load(file)
 	if "key" in request.args:
@@ -163,7 +163,7 @@ def replied(id):
 def edit(id):
 	path = "data/schedule/" + str(id) + ".json"
 	if not exists(path):
-		return render_template("error.html", error = "Invalid ID!"), 404
+		abort(404)
 	with open(path, "r") as file:
 		data = load(file)
 	invkey = None
@@ -207,13 +207,13 @@ def rssError():
 
 @app.errorhandler(404)
 def page_not_found(error):
-	return render_template("error.html", error = "404 - Page not found"), 404
+	return render_template("error.html", title = "404 - Page not found", text = "This page may have been deleted, or it may have never existed."), 404
 
 @app.errorhandler(500)
 def internal_server_error(error):
 	with open("data/logs/" + str(time_ns()) + ".txt", "w") as file:
 		file.write(traceback.format_exc())
-	return render_template("error.html", error = "500 - Internal server error"), 500
+	return render_template("error.html", title = "500 - Internal server error", text = "An error log was sent to the developer."), 500
 
 if __name__ == "__main__":
 	app.run()

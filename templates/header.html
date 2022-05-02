@@ -9,9 +9,7 @@
 			<title>Available</title>
 		{% endif %}
 		<meta charset="utf-8">
-		{% if description %}
-			<meta name="description" content="{{ description }}">
-		{% elif data %}
+		{% if data %}
 			<meta name="description" content="When are you available for {{ data['title'] }}?">
 		{% else %}
 			<meta name="description" content="Figure out when everyone is available for that thing.">
