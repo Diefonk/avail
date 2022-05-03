@@ -4,20 +4,20 @@
 	<form action="/post-new" method="post">
 		<h2>
 			When are you available for
-			<input type="text" name="title" placeholder="{{ title_example }}" required>
+			<input type="text" name="title" placeholder="{{ title_example }}" maxlength="50" required>
 			?
 		</h2>
 		<br>
 
-		<label for="start">First day</label>
+		<label for="start"><b>First day</b></label>
 		<input type="date" name="start" id="start" value="{{ today }}" min="{{ today }}" required>
 		<br><br>
 
-		<label for="length">Number of days</label>
+		<label for="length"><b>Number of days</b></label>
 		<input type="number" name="length" id="length" value="7" min="1" max="31" required>
 		<br><br>
 
-		<label for="timezone">Time zone</label>
+		<label for="timezone"><b>Time zone</b></label>
 		<select name="timezone" id="timezone">
 			{% for zone in timezones %}
 				<option value="{{ zone['offset'] }}" {% if zone["offset"] == 0 %} selected {% endif %}>{{ zone["name"] }}</option>
@@ -26,7 +26,7 @@
 		<script src="{{ url_for('static', filename = 'setTimezone.js') }}"></script>
 		<br><br>
 
-		<label for="resolution">Time resolution</label>
+		<label for="resolution"><b>Time resolution</b></label>
 		<select name="resolution" id="resolution">
 			<option value="1" selected>1 hour</option>
 			<option value="2">30 minutes</option>

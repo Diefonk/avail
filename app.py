@@ -21,7 +21,7 @@ def index():
 @app.route("/post-new", methods = ["POST"])
 def post_new():
 	data = {}
-	data["title"] = request.form["title"]
+	data["title"] = request.form["title"][:50]
 	data["start"] = request.form["start"]
 	data["length"] = int(request.form["length"]) * 24 * int(request.form["resolution"])
 	data["timezone"] = int(request.form["timezone"])
@@ -126,7 +126,7 @@ def post_reply(id):
 		reply["key"] = request.form["key"]
 	else:
 		reply["key"] = uuid4().hex
-	reply["name"] = request.form["name"]
+	reply["name"] = request.form["name"][:50]
 	reply["timezone"] = int(request.form["timezone"])
 	reply["format"] = request.form["format"]
 	times = ""
@@ -179,9 +179,9 @@ def feedback():
 def post_feedback():
 	with open("data/feedback/" + str(time_ns()) + ".txt", "w") as file:
 		text = request.form["useful"] + "\n"
-		text += request.form["useful-comment"] + "\n"
+		text += request.form["useful-comment"][:2000] + "\n"
 		text += request.form["easy"] + "\n"
-		text += request.form["easy-comment"]
+		text += request.form["easy-comment"][:2000]
 		file.write(text)
 	return redirect("/thanks")
 

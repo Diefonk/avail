@@ -5,11 +5,11 @@
 	<br>
 
 	<form action="/{{ id }}/post-reply" method="post">
-		<label for="name">Name</label>
-		<input type="text" name="name" id="name" required {% if data["name"] %} value="{{ data['name'] }}" {% endif %}>
+		<label for="name"><b>Name</b></label>
+		<input type="text" name="name" id="name" maxlength="50" required {% if data["name"] %} value="{{ data['name'] }}" {% endif %}>
 		<br><br>
 
-		<label for="timezone">Time zone</label>
+		<label for="timezone"><b>Time zone</b></label>
 		<select name="timezone" id="timezone" class="js" onchange="changeTimezone()">
 			{% for zone in timezones %}
 				<option value="{{ zone['offset'] }}" {% if zone["offset"] == data["replyTimezone"] %} selected {% endif %}>{{ zone["name"] }}</option>
@@ -30,7 +30,7 @@
 		{% endif %}
 		<br><br>
 
-		<label for="format">Time format</label>
+		<label for="format"><b>Time format</b></label>
 		<select name="format" id="format" class="js" onchange="changeTimezone()">
 			<option value="12" {% if data["format"] == "12" %} selected {% endif %}>12h (am/pm)</option>
 			<option value="24" {% if data["format"] == "24" %} selected {% endif %}>24h (00-23)</option>
@@ -51,7 +51,7 @@
 			<label id="date{{ time['index'] }}">
 				{% if time["date"] %}
 					<br>
-					{{ time["date"] }}
+					<b>{{ time["date"] }}</b>
 					<br>
 				{% endif %}
 			</label>
@@ -123,7 +123,7 @@
 					if (date !== nextDate) {
 						days.push({});
 						dayIndex = days.length - 1;
-						let label = "<br>" + nextDate;
+						let label = "<br><b>" + nextDate + "</b>";
 						label += " <button type='button' onclick='selectDay(" + dayIndex + ", true)'>Select all</button>";
 						label += " <button type='button' onclick='selectDay(" + dayIndex + ", false)'>Deselect all</button>";
 						label += " <button type='button' onclick='copyDay(" + dayIndex + ", 1)'>Copy to all days</button>";

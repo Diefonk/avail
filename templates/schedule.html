@@ -18,7 +18,7 @@
 		{% endfor %}
 		<br><br>
 
-		<label for="timezone">Time zone</label>
+		<label for="timezone"><b>Time zone</b></label>
 		<select id="timezone" class="js" onchange="updateOverlap()">
 			{% for zone in timezones %}
 				<option value="{{ zone['offset'] }}" {% if zone["offset"] == data["timezone"] %} selected {% endif %}>{{ zone["name"] }}</option>
@@ -39,7 +39,7 @@
 		{% endif %}
 		<br><br>
 
-		<label for="format">Time format</label>
+		<label for="format"><b>Time format</b></label>
 		<select id="format" class="js" onchange="updateOverlap()">
 			<option value="12">12h (am/pm)</option>
 			<option value="24" selected>24h (00-23)</option>
