@@ -1,3 +1,17 @@
+@font-face {
+	font-family: OpenSans;
+	src: url(OpenSans-Regular.ttf);
+}
+@font-face {
+	font-family: OpenSans;
+	src: url(OpenSans-Bold.ttf);
+	font-weight: bold;
+}
+@font-face {
+	font-family: OpenSans;
+	src: url(OpenSans-Italic.ttf);
+	font-style: italic;
+}
 * {
 	box-sizing: border-box;
 	margin: 0;
@@ -5,7 +19,7 @@
 	border-collapse: collapse;
 	border: none;
 	outline: none;
-	font-family: Helvetica, sans-serif;
+	font-family: OpenSans, sans-serif;
 	font-weight: normal;
 	font-size: 16px;
 }
@@ -55,7 +69,7 @@ input, select {
 	border: 2px solid blue;
 	border-radius: 8px;
 	padding: 8px;
-	max-width: 50%;
+	max-width: 40%;
 }
 textarea {
 	width: 100%;
