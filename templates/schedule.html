@@ -4,9 +4,17 @@
 	<h2>When are you available for <span class="blue">{{ data["title"] }}</span>?</h2>
 	<br>
 
-	<a href="/{{ id }}/reply">New reply</a> |
-	<a href="/{{ id }}/edit">Edit reply</a>
-	<br><br><br>
+	{% if remaining_days >= 14 %}
+		<p>
+			<a href="/{{ id }}/reply">New reply</a> |
+			<a href="/{{ id }}/edit">Edit reply</a>
+		</p>
+	{% else %}
+		<p>
+			This page will be automatically deleted in <span class="blue">{{ remaining_days }}</span> day{% if remaining_days != 1 %}s{% endif %}
+		</p>
+	{% endif %}
+	<br><br>
 
 	{% if has_replies %}
 		<h3>Replies</h3>

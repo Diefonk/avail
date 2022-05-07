@@ -24,6 +24,7 @@ def post_new():
 	data["title"] = request.form["title"][:50]
 	data["start"] = request.form["start"]
 	data["length"] = int(request.form["length"]) * 24 * int(request.form["resolution"])
+	data["delete"] = datetime.strftime(datetime.strptime(data["start"], "%Y-%m-%d") + timedelta(days = int(request.form["length"]) + 14), "%Y-%m-%d")
 	data["timezone"] = int(request.form["timezone"])
 	data["interval"] = 60 / int(request.form["resolution"])
 	data["replies"] = []
@@ -67,7 +68,8 @@ def schedule(id):
 			times[-1] += datetime.strftime(timestamp, "%H:%M")
 	with open("static/timezones.json", "r") as file:
 		timezones = load(file)
-	return render_template("schedule.html", data = data, id = str(id), has_replies = len(data["replies"]) > 0, reply_range = range(len(data["replies"])), times = times, has_overlap = len(times) > 0, timezones = timezones)
+	remaining_days = (datetime.strptime(data["delete"], "%Y-%m-%d") - datetime.today()).days
+	return render_template("schedule.html", data = data, id = str(id), has_replies = len(data["replies"]) > 0, reply_range = range(len(data["replies"])), times = times, has_overlap = len(times) > 0, timezones = timezones, remaining_days = remaining_days)
 
 @app.route("/<uuid:id>/reply")
 def reply(id):
