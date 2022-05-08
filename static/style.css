@@ -27,7 +27,7 @@ body {
 	max-width: 800px;
 	margin: auto;
 	padding: 16px;
-	background-color: white;
+	background-color: #eef;
 	color: black;
 }
 header, nav {
@@ -42,9 +42,10 @@ h1 {
 	margin-bottom: 16px;
 }
 h1 a {
-	color: white;
-	background-color: blue;
+	color: #eef;
+	background-color: #22f;
 	text-decoration: none;
+	font-weight: bold;
 	border-radius: 8px;
 	padding: 8px;
 }
@@ -59,14 +60,14 @@ b {
 }
 a {
 	font-size: 1em;
-	color: blue;
+	color: #22f;
 	text-decoration: underline;
 }
 input, select {
 	font-size: 1em;
 	color: black;
-	background-color: white;
-	border: 2px solid blue;
+	background-color: #eef;
+	border: 2px solid #22f;
 	border-radius: 8px;
 	padding: 8px;
 	max-width: 40%;
@@ -74,26 +75,26 @@ input, select {
 textarea {
 	width: 100%;
 	resize: vertical;
-	background-color: white;
-	border: 2px solid blue;
+	background-color: #eef;
+	border: 2px solid #22f;
 	border-radius: 8px;
 	padding: 8px;
 	color: black;
 }
 button {
-	color: white;
-	background-color: blue;
+	color: #eef;
+	background-color: #22f;
 	border-radius: 8px;
 	padding: 8px;
 }
 input[type="checkbox"] + label {
-	border: 2px solid blue;
+	border: 2px solid #22f;
 	border-radius: 8px;
 	padding: 4px;
 }
 input[type="checkbox"]:checked + label {
-	color: white;
-	background-color: blue;
+	color: #eef;
+	background-color: #22f;
 }
 footer {
 	text-align: center;
@@ -109,16 +110,16 @@ ul {
 }
 .blue {
 	font-size: 1em;
-	color: blue;
+	color: #22f;
 }
 
 @media (prefers-color-scheme: dark) {
 	body {
-		background-color: black;
+		background-color: #111;
 		color: white;
 	}
 	h1 a {
-		color: black;
+		color: #111;
 		background-color: deepskyblue;
 	}
 	a {
@@ -126,16 +127,16 @@ ul {
 	}
 	input, select {
 		color: white;
-		background-color: black;
+		background-color: #111;
 		border-color: deepskyblue;
 	}
 	textarea {
-		background-color: black;
+		background-color: #111;
 		border-color: deepskyblue;
 		color: white;
 	}
 	button, input[type="checkbox"]:checked + label {
-		color: black;
+		color: #111;
 		background-color: deepskyblue;
 	}
 	input[type="checkbox"] + label {
