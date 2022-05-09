@@ -1,7 +1,7 @@
 <rss version="2.0">
 	<channel>
 		<title>{{ title }}</title>
-		<link>https://avail.diefonk.net</link>
+		<link>https://availa.blue</link>
 		<description>{{ title }}</description>
 
 		{% for item in items %}

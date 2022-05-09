@@ -194,7 +194,7 @@ def thanks():
 @app.route("/rss/feedback.xml")
 def rssFeedback():
 	items = listdir("data/feedback")
-	rss = render_template("rss.xml", title = "avail feedback", folder = "feedback", items = items)
+	rss = render_template("rss.xml", title = "availa.blue feedback", folder = "feedback", items = items)
 	response = make_response(rss)
 	response.mimetype = "application/rss+xml"
 	return response
@@ -202,7 +202,7 @@ def rssFeedback():
 @app.route("/rss/error.xml")
 def rssError():
 	items = listdir("data/logs")
-	rss = render_template("rss.xml", title = "avail error logs", folder = "logs", items = items)
+	rss = render_template("rss.xml", title = "availa.blue error logs", folder = "logs", items = items)
 	response = make_response(rss)
 	response.mimetype = "application/rss+xml"
 	return response
