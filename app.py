@@ -173,6 +173,10 @@ def edit(id):
 		invkey = request.args["invkey"]
 	return render_template("edit.html", data = data, id = str(id), invkey = invkey)
 
+@app.route("/about")
+def about():
+	return render_template("about.html")
+
 @app.route("/feedback")
 def feedback():
 	return render_template("feedback.html", title = "Feedback")
